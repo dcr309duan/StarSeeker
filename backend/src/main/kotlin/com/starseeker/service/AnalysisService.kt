@@ -1,9 +1,11 @@
 package com.starseeker.service
 
 import org.springframework.stereotype.Service
+import org.slf4j.LoggerFactory
 
 @Service
 class AnalysisService {
+    private val log = LoggerFactory.getLogger(AnalysisService::class.java)
     private val kg = mapOf(
         "Physics" to listOf("displacement", "velocity", "time", "gradient"),
         "Mathematics" to listOf("linear equation", "isolation of variable"),
@@ -31,4 +33,3 @@ class AnalysisService {
         return Triple(explanation, suggested, points)
     }
 }
-

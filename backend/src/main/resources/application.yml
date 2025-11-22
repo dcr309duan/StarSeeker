@@ -3,4 +3,7 @@ server:
 spring:
   application:
     name: starseeker-backend
-
+logging:
+  level:
+    root: INFO
+    com.starseeker: INFO
