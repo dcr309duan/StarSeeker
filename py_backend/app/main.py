@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.routing import APIRouter
 from prometheus_client import Counter, Gauge
-from starlette.responses import JSONResponse, FileResponse
+from starlette.responses import JSONResponse, FileResponse, Response
 from starlette.staticfiles import StaticFiles
 from .routers.api import router as api_router
 
@@ -57,6 +57,10 @@ async def api_health():
 @app.get("/")
 async def index():
     return FileResponse(str(STATIC_DIR / "index.html"))
+
+@app.get("/@vite/client")
+async def vite_client_stub():
+    return Response("// stub for vite client in production\nexport default {};", media_type="application/javascript")
 
 @app.on_event("startup")
 async def on_startup():

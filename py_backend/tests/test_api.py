@@ -97,3 +97,11 @@ async def test_index_route_and_middleware_error():
     async with AsyncClient(transport=transport, base_url="http://test") as ac:
         err = await ac.get("/api/boom")
         assert err.status_code == 500
+
+@pytest.mark.asyncio
+async def test_vite_client_stub():
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as ac:
+        r = await ac.get("/@vite/client")
+        assert r.status_code == 200
+        assert r.headers.get("content-type", "").startswith("application/javascript")
