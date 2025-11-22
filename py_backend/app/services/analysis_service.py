@@ -47,6 +47,4 @@ class AnalysisService:
             lines.append(f"规律：{rules_str}")
         lines.append("思路：识别题目涉及的核心概念，应用对应规律进行判断。")
         explanation = "\n".join(lines).strip()
-        if not explanation:
-            explanation = "根据题面关键词进行匹配与推理，结合题库答案给出结论。"
         return explanation, suggested, points
