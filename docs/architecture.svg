@@ -23,11 +23,6 @@
   <text class="text" x="392" y="82">server.js</text>
   <text class="text" x="392" y="100">src/db, src/ocr, src/analysis</text>
 
-  <!-- Spring Boot -->
-  <rect class="box" x="380" y="260" width="320" height="220"/>
-  <text class="title" x="392" y="280">Spring Boot : 8080</text>
-  <text class="text" x="392" y="302">/v1/api + JWT + Swagger</text>
-
   <!-- Python FastAPI -->
   <rect class="box" x="380" y="500" width="320" height="160"/>
   <text class="title" x="392" y="520">Python FastAPI : 8000</text>
@@ -55,16 +50,7 @@
   <rect class="box" x="740" y="200" width="180" height="60"/>
   <text class="title" x="752" y="220">DB+Index (lunr)</text>
 
-  <!-- Spring internals -->
-  <rect class="box" x="740" y="280" width="200" height="80"/>
-  <text class="title" x="752" y="300">Controllers</text>
-  <text class="text" x="752" y="320">AuthController / QuestionController</text>
-  <rect class="box" x="740" y="370" width="200" height="100"/>
-  <text class="title" x="752" y="390">Services</text>
-  <text class="text" x="752" y="410">OcrService / QuestionService / AnalysisService</text>
-  <rect class="box" x="740" y="480" width="200" height="60"/>
-  <text class="title" x="752" y="500">Repository</text>
-  <text class="text" x="752" y="520">QuestionRepository</text>
+  
 </svg>
   <!-- Python internals -->
   <rect class="box" x="740" y="560" width="220" height="90"/>

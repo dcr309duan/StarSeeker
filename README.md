@@ -2,8 +2,8 @@
 
 摘星搜题是面向 A-Level 教师的试题识别与解析应用。当前代码库包含：
 - 前端静态页面（上传图片，查看答案与解析，历史与收藏）
-- Node/Express 服务（图片 OCR、题目解析、题库检索、解析生成，静态托管）
-- Kotlin/Spring Boot 服务（版本化 REST API `/v1/api`，JWT 登录与 Swagger 文档）
+- Node/Express 服务（图片 OCR、题目解析、题库检索、解析生成，静态托管；解析阶段优先委派到 Python 后端）
+- Python/FastAPI 服务（REST API `/api/solve` 与 `/health`，LangChain 接入预留）
 
 ## 快速开始
 
@@ -19,17 +19,15 @@
 - `POST /api/favorite`
 - `GET /api/favorites`
 
-### Kotlin/Spring Boot 后端（前后端分离 API）
-- 进入目录：`cd backend`
-- 构建：`gradle build`
-- 启动：`java -jar build/libs/starseeker-backend-0.1.0.jar`
-- Swagger 文档：`http://localhost:8080/swagger-ui.html`
+### Python/FastAPI 后端（前后端分离 API）
+- 进入目录：`cd py_backend`
+- 安装依赖：`poetry install`
+- 启动：`poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000`
+- 健康检查：`http://localhost:8000/health`
 
-鉴权流程（Spring）：
-- 登录获取令牌：
-  - `curl -X POST 'http://localhost:8080/v1/api/auth/login' -d 'username=teacher&password=starseeker'`
-- 识别与解析（文本模式）：
-  - `curl -X POST 'http://localhost:8080/v1/api/solve' -H 'Authorization: Bearer <token>' -H 'Content-Type: application/x-www-form-urlencoded' -d 'board=CIE&force_text=Which graph shows the displacement-time relationship for constant non-zero velocity? A. A straight line with positive gradient B. A horizontal line C. A curve with increasing gradient D. A sine wave'`
+与 Node 集成（文本模式示例）：
+- 设置环境变量：`PY_API_URL=http://localhost:8000`
+- 前端/Node 流程不变，Node 会优先调用 Python `/api/solve`
 
 ## 架构概览
 - 架构文档：`docs/architecture.md`
@@ -43,12 +41,11 @@
   - 解析：`src/ocr/parser.js`
   - 题库与索引：`src/db/index.js`（内存 + lunr）
   - 解析生成：`src/analysis/analysis.js`
-- Spring Boot：`backend/`
-  - 控制器：`api/`（`AuthController`、`QuestionController`）
-  - 服务：`service/`（`QuestionService`、`AnalysisService`、`OcrService` 占位）
-  - 仓库：`repo/QuestionRepository`
-  - 安全：`security/`（`JwtService`、`JwtAuthFilter`）与 `config/SecurityConfig`
-  - 异常：`exception/GlobalExceptionHandler`
+- Python FastAPI：`py_backend/`
+  - 路由：`app/routers/api.py`
+  - 服务：`app/services/analysis_service.py`
+  - 数据：`app/data/repository.py`
+  - 应用：`app/main.py`
 
 ## 开发与部署建议
 - 前后端分离：生产环境建议使用 Spring Boot 提供 `/v1/api`，前端独立打包与部署（Nginx 静态 + 反向代理）
