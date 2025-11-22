@@ -1,0 +1,20 @@
+{
+  "name": "starseeker-zhaixing-souti",
+  "version": "0.1.0",
+  "private": true,
+  "description": "摘星搜题：A-Level 教师端试题识别与解析服务",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "NODE_ENV=development node server.js",
+    "test": "node tests/perf.js"
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "express": "^4.19.2",
+    "langchain": "^0.2.16",
+    "multer": "^1.4.5-lts.1",
+    "tesseract.js": "^4.1.2",
+    "lunr": "^2.3.9"
+  }
+}

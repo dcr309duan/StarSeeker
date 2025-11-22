@@ -1,0 +1,46 @@
+package com.starseeker.api
+
+import com.starseeker.model.SolveResponse
+import com.starseeker.service.AnalysisService
+import com.starseeker.service.OcrService
+import com.starseeker.service.QuestionService
+import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
+
+@RestController
+@RequestMapping("/v1/api")
+class QuestionController(
+    private val ocr: OcrService,
+    private val qs: QuestionService,
+    private val analysis: AnalysisService
+) {
+    @PostMapping("/solve", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_FORM_URLENCODED_VALUE])
+    fun solve(@RequestParam(required = false) board: String?, @RequestParam(required = false) force_text: String?, @RequestParam(required = false) image: MultipartFile?): ResponseEntity<SolveResponse> {
+        val t0 = System.currentTimeMillis()
+        val rawText = when {
+            !force_text.isNullOrBlank() -> force_text.trim()
+            image != null && !image.isEmpty -> ocr.extractText(image.bytes)
+            else -> ""
+        }
+        if (rawText.isBlank()) return ResponseEntity.badRequest().build()
+        val parsedQuestion = rawText
+        val topic = qs.detectTopic(parsedQuestion)
+        val normalizedBoard = when (board?.uppercase()) { "EDEXCEL" -> "EDX"; "CIE", "EDX" -> board.uppercase(); else -> null }
+        val match = qs.search(parsedQuestion, normalizedBoard)
+        val triple = analysis.generate(parsedQuestion, match?.subject ?: topic, match?.answer)
+        val resp = SolveResponse(
+            board = match?.board ?: normalizedBoard ?: "UNKNOWN",
+            question = parsedQuestion,
+            choices = match?.choices,
+            matched = match?.let { mapOf("id" to it.id, "paper" to it.paper, "number" to it.number, "subject" to it.subject) },
+            answer = match?.answer ?: triple.second,
+            explanation = triple.first,
+            knowledge_points = triple.third,
+            duration_ms = System.currentTimeMillis() - t0
+        )
+        return ResponseEntity.ok(resp)
+    }
+}
+

@@ -1,0 +1,57 @@
+<mxfile host="app.diagrams.net" modified="2025-11-22" agent="TraeIDE" version="20.8.3">
+  <diagram id="arch" name="StarSeeker Architecture">
+    <mxGraphModel dx="1040" dy="720" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <!-- Frontend -->
+        <mxCell id="frontend" value="Frontend\nstatic/index.html\nstatic/app.js" style="rounded=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="60" y="120" width="240" height="120" as="geometry"/>
+        </mxCell>
+        <!-- Node/Express -->
+        <mxCell id="node" value="Node/Express (3000)\nserver.js\nsrc/db, src/ocr, src/analysis" style="rounded=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="420" y="60" width="300" height="180" as="geometry"/>
+        </mxCell>
+        <!-- Spring Boot -->
+        <mxCell id="spring" value="Spring Boot (8080)\nbackend/*\n/v1/api + JWT + Swagger" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="420" y="280" width="300" height="200" as="geometry"/>
+        </mxCell>
+        <!-- Flows -->
+        <mxCell id="f1" style="endArrow=block;html=1;strokeColor=#6c8ebf;" edge="1" parent="1" source="frontend" target="node">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="360" y="120" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f1label" value="HTTP POST /api/solve\nmultipart/form-data / x-www-form-urlencoded" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="360" y="140" width="260" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="f2" style="endArrow=block;html=1;strokeColor=#82b366;" edge="1" parent="1" source="frontend" target="spring">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="f2label" value="HTTP POST /v1/api/solve\nAuthorization: Bearer <token>" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="360" y="320" width="260" height="50" as="geometry"/>
+        </mxCell>
+        <!-- Node internals -->
+        <mxCell id="node-ocr" value="tesseract.js OCR" style="rounded=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="760" y="80" width="160" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="node-parser" value="Parser (A/B/C/D)" style="rounded=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="760" y="150" width="160" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="node-index" value="DB+Index (lunr)" style="rounded=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="760" y="220" width="160" height="60" as="geometry"/>
+        </mxCell>
+        <!-- Spring internals -->
+        <mxCell id="spring-ctrl" value="Controllers\nAuthController\nQuestionController" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="760" y="300" width="180" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="spring-svc" value="Services\nOcrService\nQuestionService\nAnalysisService" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="760" y="390" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="spring-repo" value="Repository\nQuestionRepository" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="760" y="500" width="180" height="60" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,24 @@
+# OS
+.DS_Store
+
+# Node
+node_modules/
+npm-debug.log*
+dist/
+data/
+.env
+
+# Frontend build
+static/dist/
+
+# Backend (Gradle)
+backend/.gradle/
+backend/build/
+
+# IDE
+.idea/
+.vscode/
+
+# Logs
+logs/
+*.log

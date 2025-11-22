@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>摘星搜题 · 教师端</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>摘星搜题</h1>
+      <p class="subtitle">A-Level 教师专用 · CIE / EDX</p>
+
+      <div class="steps">
+        <div class="step">
+          <h2>1. 上传试卷照片</h2>
+          <input type="file" id="image" accept="image/*" />
+          <select id="board">
+            <option value="">自动</option>
+            <option value="CIE">CIE</option>
+            <option value="EDX">EDX</option>
+          </select>
+          <button id="solve">识别并解析</button>
+        </div>
+
+        <div class="step">
+          <h2>2. 结果与解析</h2>
+          <pre id="result"></pre>
+          <button id="fav">收藏本题</button>
+        </div>
+
+        <div class="step">
+          <h2>3. 历史记录与收藏</h2>
+          <div class="two-col">
+            <div>
+              <h3>历史记录</h3>
+              <ul id="history"></ul>
+            </div>
+            <div>
+              <h3>收藏夹</h3>
+              <ul id="favorites"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+  </html>
+
