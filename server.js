@@ -46,13 +46,30 @@ app.post('/api/solve', upload.single('image'), async (req, res) => {
     const official = match || null
     console.log(`[solve:${reqId}] search match=${official ? official.id : 'none'} board=${official ? official.board : (searchBoard || 'AUTO')}`)
 
-    const analysis = generateAnalysis({
-      questionText: qText,
-      choices: parsed.choices,
-      board: official ? official.board : searchBoard,
-      answer: official ? official.answer : null,
-      topic: official ? official.subject : parsed.topic
-    })
+    let analysis = null
+    const pyUrl = process.env.PY_API_URL || 'http://localhost:8000'
+    try {
+      const fd = new URLSearchParams()
+      if (searchBoard) fd.append('board', searchBoard)
+      fd.append('force_text', qText)
+      const pyResp = await fetch(`${pyUrl}/api/solve`, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: fd.toString() })
+      if (pyResp.ok) {
+        const pyData = await pyResp.json()
+        analysis = { suggestedAnswer: pyData.answer, explanation: pyData.explanation, knowledgePoints: pyData.knowledge_points }
+        console.log(`[solve:${reqId}] py-backend used answer=${analysis.suggestedAnswer}`)
+      }
+    } catch (e) {
+      console.warn(`[solve:${reqId}] py-backend unavailable`, String(e && e.message || e))
+    }
+    if (!analysis) {
+      analysis = generateAnalysis({
+        questionText: qText,
+        choices: parsed.choices,
+        board: official ? official.board : searchBoard,
+        answer: official ? official.answer : null,
+        topic: official ? official.subject : parsed.topic
+      })
+    }
     console.log(`[solve:${reqId}] analysis answer=${official ? official.answer : analysis.suggestedAnswer || 'unknown'}`)
 
     const response = {

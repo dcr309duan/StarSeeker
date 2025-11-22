@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: starseeker-py-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: starseeker-py-backend
+  template:
+    metadata:
+      labels:
+        app: starseeker-py-backend
+    spec:
+      containers:
+      - name: api
+        image: starseeker/py-backend:0.1.0
+        ports:
+        - containerPort: 8000
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+
