@@ -16,6 +16,10 @@
         <mxCell id="spring" value="Spring Boot (8080)\nbackend/*\n/v1/api + JWT + Swagger" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
           <mxGeometry x="420" y="280" width="300" height="200" as="geometry"/>
         </mxCell>
+        <!-- Python FastAPI -->
+        <mxCell id="python" value="Python FastAPI (8000)\npy_backend/*\n/api/solve, /health" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="420" y="500" width="300" height="160" as="geometry"/>
+        </mxCell>
         <!-- Flows -->
         <mxCell id="f1" style="endArrow=block;html=1;strokeColor=#6c8ebf;" edge="1" parent="1" source="frontend" target="node">
           <mxGeometry relative="1" as="geometry">
@@ -30,6 +34,13 @@
         </mxCell>
         <mxCell id="f2label" value="HTTP POST /v1/api/solve\nAuthorization: Bearer <token>" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;" vertex="1" parent="1">
           <mxGeometry x="360" y="320" width="260" height="50" as="geometry"/>
+        </mxCell>
+        <!-- Node -> Python -->
+        <mxCell id="f3" style="endArrow=block;html=1;strokeColor=#b85450;" edge="1" parent="1" source="node" target="python">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="f3label" value="HTTP POST {PY_API_URL}/api/solve" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="360" y="460" width="280" height="40" as="geometry"/>
         </mxCell>
         <!-- Node internals -->
         <mxCell id="node-ocr" value="tesseract.js OCR" style="rounded=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">

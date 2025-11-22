@@ -28,6 +28,16 @@
   <text class="title" x="392" y="280">Spring Boot : 8080</text>
   <text class="text" x="392" y="302">/v1/api + JWT + Swagger</text>
 
+  <!-- Python FastAPI -->
+  <rect class="box" x="380" y="500" width="320" height="160"/>
+  <text class="title" x="392" y="520">Python FastAPI : 8000</text>
+  <text class="text" x="392" y="542">/api/solve, /health</text>
+  <text class="text" x="392" y="560">LangChain-ready, Poetry, CI/K8s</text>
+
+  <!-- Arrow Node -> Python -->
+  <line class="arrow" x1="540" y1="220" x2="540" y2="500" />
+  <text class="text" x="550" y="360">POST {PY_API_URL}/api/solve</text>
+
   <!-- Arrows -->
   <line class="arrow" x1="320" y1="140" x2="380" y2="130" />
   <text class="text" x="320" y="120">POST /api/solve</text>
@@ -55,4 +65,9 @@
   <rect class="box" x="740" y="480" width="200" height="60"/>
   <text class="title" x="752" y="500">Repository</text>
   <text class="text" x="752" y="520">QuestionRepository</text>
+</svg>
+  <!-- Python internals -->
+  <rect class="box" x="740" y="560" width="220" height="90"/>
+  <text class="title" x="752" y="580">FastAPI</text>
+  <text class="text" x="752" y="600">Routers / Services / Data / Prometheus</text>
 </svg>
