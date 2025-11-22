@@ -1,11 +1,13 @@
 import asyncio
 import structlog
+from pathlib import Path
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.routing import APIRouter
 from prometheus_client import Counter, Gauge
 from starlette.responses import JSONResponse
+from starlette.staticfiles import StaticFiles
 from .routers.api import router as api_router
 
 log = structlog.get_logger()
@@ -24,6 +26,12 @@ app.add_middleware(
 api = APIRouter()
 api.include_router(api_router, prefix="")
 app.include_router(api, prefix="/api")
+
+# Static files (serve frontend)
+ROOT = Path(__file__).resolve().parents[2]
+STATIC_DIR = ROOT / "static"
+if STATIC_DIR.exists():
+    app.mount("/", StaticFiles(directory=str(STATIC_DIR), html=True), name="static")
 
 @app.middleware("http")
 async def metrics_middleware(request, call_next):
@@ -45,4 +53,3 @@ async def health():
 async def on_startup():
     log.info("startup")
     await asyncio.sleep(0)
-

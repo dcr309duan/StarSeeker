@@ -7,11 +7,8 @@
 
 ## 快速开始
 
-### 前端 + Node 服务
-- 安装依赖：`npm install`
-- 启动服务：`npm start`
-- 访问页面：`http://localhost:3000/`
-- 端到端文本测试（无需图片/OCR）：`npm test`
+### 前端 + Python 服务
+- 启动 Python 后端后，直接访问 `http://localhost:8000/` 即可打开前端页面（由 FastAPI 静态托管）
 
 接口（Node）：
 - `POST /api/solve`（支持 `multipart/form-data` 上传 `image`；或 `application/x-www-form-urlencoded` 传 `force_text`）
@@ -25,9 +22,8 @@
 - 启动：`poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000`
 - 健康检查：`http://localhost:8000/health`
 
-与 Node 集成（文本模式示例）：
-- 设置环境变量：`PY_API_URL=http://localhost:8000`
-- 前端/Node 流程不变，Node 会优先调用 Python `/api/solve`
+与后端交互（文本模式示例）：
+- `curl -X POST 'http://localhost:8000/api/solve' -H 'Content-Type: application/x-www-form-urlencoded' -d 'board=CIE&force_text=Which graph shows the displacement-time relationship for constant non-zero velocity? A. A straight line with positive gradient B. A horizontal line C. A curve with increasing gradient D. A sine wave'`
 
 ## 架构概览
 - 架构文档：`docs/architecture.md`
