@@ -38,12 +38,15 @@ class AnalysisService:
             "Mathematics": ["ax + b = c -> x = (c - b)/a"],
             "Chemistry": ["exothermic -> releases heat, ΔH < 0"]
         }.get(topic or "", [])
-        explanation = "\n".join([
-            f"知识点：{"，".join(points)}" if points else "",
-            f"规律：{"；".join(rules)}" if rules else "",
-            "思路：识别题目涉及的核心概念，应用对应规律进行判断。"
-        ]).strip()
+        points_str = "，".join(points) if points else ""
+        rules_str = "；".join(rules) if rules else ""
+        lines = []
+        if points_str:
+            lines.append(f"知识点：{points_str}")
+        if rules_str:
+            lines.append(f"规律：{rules_str}")
+        lines.append("思路：识别题目涉及的核心概念，应用对应规律进行判断。")
+        explanation = "\n".join(lines).strip()
         if not explanation:
             explanation = "根据题面关键词进行匹配与推理，结合题库答案给出结论。"
         return explanation, suggested, points
-

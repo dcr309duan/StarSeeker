@@ -11,8 +11,24 @@ async function solve() {
     return
   }
 
-  fd.append('image', file)
+  let recognizedText = ''
+  try {
+    resultEl.textContent = '正在本地OCR识别图片文本…'
+    const { data } = await Tesseract.recognize(file, 'eng')
+    recognizedText = (data && data.text) ? data.text : ''
+    recognizedText = recognizedText.replace(/[\r\t]+/g, ' ').replace(/\n+/g, '\n').trim()
+  } catch (e) {
+    resultEl.textContent = `本地OCR失败：${String(e && e.message || e)}。可重试或更换更清晰照片。`
+    return
+  }
+
+  if (!recognizedText) {
+    resultEl.textContent = '未从图片识别到有效文本，请更换更清晰照片或调整拍摄角度。'
+    return
+  }
+
   if (board) fd.append('board', board)
+  fd.append('force_text', recognizedText)
 
   btn.disabled = true
   resultEl.textContent = '正在识别与解析，请稍候…'
